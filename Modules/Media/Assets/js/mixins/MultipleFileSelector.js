@@ -1,30 +1,27 @@
 export default {
     methods: {
         selectMultipleFile(event, model) {
-            if (typeof this[model].medias_multi === 'undefined') {
-                this.$set(model, 'medias_multi', {});
+            if (!this[model].medias_multi) {
+                this[model].medias_multi = {};
             }
-
-            if (typeof this[model].medias_multi[event.zone] === 'undefined') {
-                this.$set(this[model].medias_multi, event.zone, { files: [], orders: '' });
+            if (!this[model].medias_multi[event.zone]) {
+                this[model].medias_multi[event.zone] = { files: [] };
             }
-
-            if (event.id !== null && event.id !== undefined) {
-                const medias = new Set(this[model].medias_multi[event.zone].files);
-                medias.add(event.id);
-                this.$set(this[model].medias_multi[event.zone], 'files', [...medias]);
-            }
+            this[model].medias_multi[event.zone].files.push(event.id);
         },
         unselectFile(event, model) {
-            if (event.id !== null && event.id !== undefined) {
-                const medias = new Set(this[model].medias_multi[event.zone].files);
-                medias.delete(event.id);
-                this.$set(this[model].medias_multi[event.zone], 'files', [...medias]);
+            if (!this[model].medias_multi) {
+                this[model].medias_multi = {};
             }
-
-            if (this[model].medias_multi[event.zone].files.length === 0) {
-                this.$delete(this[model].medias_multi, event.zone);
+            if (!this[model].medias_multi[event.zone]) {
+                this[model].medias_multi[event.zone] = { files: [] };
+                if (this.$refs['multiple-media'] !== undefined && this.$refs['multiple-media'].selectedMedia !== undefined && !_.isEmpty(this.$refs['multiple-media'].selectedMedia)) {
+                    _.forEach(this.$refs['multiple-media'].selectedMedia, (file, key) => {
+                        this[model].medias_multi[event.zone].files.push(file.id);
+                    });
+                }
             }
+            this[model].medias_multi[event.zone].files = _.reject(this[model].medias_multi[event.zone].files, media => media === event.id);
         },
     },
 };

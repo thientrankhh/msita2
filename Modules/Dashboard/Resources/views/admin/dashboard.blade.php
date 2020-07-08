@@ -47,6 +47,7 @@
 @stop
 
 @push('js-stack')
+    @parent
     <script type="text/javascript">
         $(document).ready(function () {
             var options = {
