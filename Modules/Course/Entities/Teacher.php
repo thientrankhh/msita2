@@ -12,4 +12,8 @@ class Teacher extends Model
     protected $table = 'course__teachers';
     public $translatedAttributes = [];
     protected $fillable = [];
+
+    public function managerTeacher() {
+        return $this->hasOne(ManagerTeacherOfCourse::class);
+    }
 }

@@ -12,4 +12,8 @@ class Category extends Model
     protected $table = 'course__categories';
     public $translatedAttributes = [];
     protected $fillable = [];
+
+    public function courses() {
+        return $this->hasMany(Course::class);
+    }
 }

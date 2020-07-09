@@ -24,7 +24,7 @@ class CreateCourseSchedulesTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('slug');
             $table->foreign('course_id')->references('id')->on('course__courses');
-            $table->foreign('user_id')->references('id')->on('users');
+            // $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
